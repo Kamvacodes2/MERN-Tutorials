@@ -6,6 +6,7 @@ const { buildSchema } = require('graphql');
 
 const app = express();
 
+const events = [];
 
 app.use(bodyParser.json())
 
@@ -14,12 +15,27 @@ app.use(bodyParser.json())
 //! mutation = changing data e.g C,U,D of CRUD
 app.use('/graphiql', graphQlHttp({
     schema: buildSchema(`
+        type Event {
+            _id: ID!
+            title: String!
+            description: String!
+            price: Float!
+            date: String!
+        }
+        
+        input EventInput {
+             title: String!
+            description: String!
+            price: Float!
+            date: String!
+        }
+
         type RootQuery {
-            events: [String!]
+            events: [Event!]!
         }
 
         type RootMutation {
-            createEvent(name: String): String
+            createEvent(eventInput: EventInput): Event
         }
         schema {
         query: RootQuery
@@ -27,15 +43,21 @@ app.use('/graphiql', graphQlHttp({
         }`),
     rootValue: {
         events: () => {
-            return  ['Sailing', 'Coding', 'Cooking', 'Crafting']
+            return events;
         },
         createEvent: (x) => {
-            const eventName = x.name
-            return eventName;
+            const event = {
+                _id: Math.random().toString(),
+                title: x.title,
+                description: x.description,
+                price: +x.price,
+                date: new Date().toISOString()
+            }
+            events.push(event);
         }
     },
     graphiql: true
 }))
-app.listen(3000, ()=>{
+app.listen(3000, () => {
     console.log('currently listening on PORT 3000')
 });
