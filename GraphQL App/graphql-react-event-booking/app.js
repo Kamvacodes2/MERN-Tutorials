@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParse = require('body-parser');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const graphQlHttp = require('express-graphql').graphqlHTTP;
 const graphqlSchema = require('./graphql/schema/index');
 const graphqlResolver = require('./graphql/resolvers/index')
@@ -13,7 +12,15 @@ const app = express();
 
 app.use(bodyParser.json())
 
-app.use(cors('*'))
+app.use((req, res, next)=>{
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if(req.method === 'OPTIONS'){
+        return res.sendStatus(200);
+    }
+    next();
+})
 
 app.use(isAuth)
 
