@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParse = require('body-parser');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const graphQlHttp = require('express-graphql').graphqlHTTP;
 const graphqlSchema = require('./graphql/schema/index');
 const graphqlResolver = require('./graphql/resolvers/index')
@@ -12,7 +13,10 @@ const app = express();
 
 app.use(bodyParser.json())
 
+app.use(cors('*'))
+
 app.use(isAuth)
+
 
 // mongodb url mongodb+srv://roo1:12345@cluster0.rcwipbt.mongodb.net/
 
@@ -30,6 +34,6 @@ mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PA
     .then().catch(err => {
         console.log(err);
     })
-app.listen(3000, () => {
-    console.log('currently listening on PORT 3000')
+app.listen(8000, () => {
+    console.log('currently listening on PORT 8000')
 });
