@@ -17,7 +17,9 @@ class App extends Component {
     this.setState({ token: token, userId: userId });
   }
 
-  logout = () => { }
+  logout = () => {
+    this.setState({token: null, userId: null})
+   }
 
   render() {
     return (
@@ -29,6 +31,8 @@ class App extends Component {
               <Routes>
                 {!this.state.token &&
                   <Route path="/" element={<Navigate to="/auth" replace />} />}
+                {!this.state.token &&
+                  <Route path="/bookings" element={<Navigate to="/auth" replace />} />}
                 {this.state.token &&
                   <Route path="/" element={<Navigate to="/events" replace />} />}
                 {this.state.token &&
