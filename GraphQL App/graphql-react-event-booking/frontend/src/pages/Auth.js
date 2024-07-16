@@ -17,9 +17,9 @@ class AuthPage extends Component {
         this.passwordEl = React.createRef();
     }
 
-    switchModeHandler = () =>{
-        this.setState(prevState =>  {
-            return {isLogin: !prevState.isLogin};
+    switchModeHandler = () => {
+        this.setState(prevState => {
+            return { isLogin: !prevState.isLogin };
         })
     }
 
@@ -44,7 +44,7 @@ class AuthPage extends Component {
             `
         };
 
-        if (!this.state.isLogin){
+        if (!this.state.isLogin) {
             requestBody = {
                 query: `
                     mutation {
@@ -63,22 +63,22 @@ class AuthPage extends Component {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(res =>{
-            if(res.status !== 200 && res.status !== 201) {
+        }).then(res => {
+            if (res.status !== 200 && res.status !== 201) {
                 throw new Error('Failed!');
             }
             return res.json();
-        }).then(resData =>{
-            if(resData.data.login.token) {
-                this.context.login(resData.data.login.token, 
-                    resData.data.login.userId, 
+        }).then(resData => {
+            if (resData.data.login.token) {
+                this.context.login(resData.data.login.token,
+                    resData.data.login.userId,
                     resData.data.login.tokenExpiration);
             }
 
         })
-        .catch(err =>{
-            console.log(err);
-        });
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     render() {
