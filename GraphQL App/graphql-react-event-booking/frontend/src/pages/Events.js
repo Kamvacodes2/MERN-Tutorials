@@ -194,7 +194,7 @@ class EventsPage extends Component {
             return res.json();
         }).then(resData => {
             console.log(resData)
-            this.setState({ isLoading: false });
+            this.setState({ isLoading: false, selectedEvent: null });
         }).catch(err => {
             console.log(err);
             this.setState({ isLoading: false });
