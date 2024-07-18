@@ -40,7 +40,7 @@ const user = async userID => {
         const user = await userLoader.load(userID.toString())
         return { ...user._doc, 
             _id: user.id, 
-            createdEvents: () => eventLoader.loadMany(this, user._doc.createdEvents) }
+            createdEvents: () => eventLoader.loadMany(user._doc.createdEvents) }
     } catch (error) {
         throw error;
     }
